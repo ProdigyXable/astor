@@ -1,24 +1,14 @@
 package fr.inria.main.evolution;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.cli.ParseException;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-
 import fr.inria.astor.approaches.cardumen.CardumenApproach;
+import fr.inria.astor.approaches.cardumen.CardumenApproach_Profl;
 import fr.inria.astor.approaches.deeprepair.DeepRepairEngine;
 import fr.inria.astor.approaches.jgenprog.JGenProg;
+import fr.inria.astor.approaches.jgenprog.JGenProg_Profl;
 import fr.inria.astor.approaches.jkali.JKaliEngine;
+import fr.inria.astor.approaches.jkali.JKaliEngine_Profl;
 import fr.inria.astor.approaches.jmutrepair.MutationalExhaustiveRepair;
+import fr.inria.astor.approaches.jmutrepair.MutationalExhaustiveRepair_Profl;
 import fr.inria.astor.approaches.scaffold.ScaffoldRepairEngine;
 import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.faultlocalization.entity.SuspiciousCode;
@@ -29,6 +19,18 @@ import fr.inria.astor.core.setup.ProjectRepairFacade;
 import fr.inria.astor.core.solutionsearch.AstorCoreEngine;
 import fr.inria.main.AbstractMain;
 import fr.inria.main.ExecutionMode;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.cli.ParseException;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 /**
  * Astor main
@@ -80,14 +82,26 @@ public class AstorMain extends AbstractMain {
 		} else if (ExecutionMode.CARDUMEN.equals(mode)) {
 			core = new CardumenApproach(mutSupporter, projectFacade);
 
+		} else if (ExecutionMode.CARDUMEN_Profl.equals(mode)) {
+			core = new CardumenApproach_Profl(mutSupporter, projectFacade);
+
 		} else if (ExecutionMode.jKali.equals(mode)) {
 			core = new JKaliEngine(mutSupporter, projectFacade);
+
+		} else if (ExecutionMode.jKali_Profl.equals(mode)) {
+			core = new JKaliEngine_Profl(mutSupporter, projectFacade);
 
 		} else if (ExecutionMode.jGenProg.equals(mode)) {
 			core = new JGenProg(mutSupporter, projectFacade);
 
+		} else if (ExecutionMode.jGenProg_Profl.equals(mode)) {
+			core = new JGenProg_Profl(mutSupporter, projectFacade);
+
 		} else if (ExecutionMode.MutRepair.equals(mode)) {
 			core = new MutationalExhaustiveRepair(mutSupporter, projectFacade);
+
+		} else if (ExecutionMode.MutRepair_Profl.equals(mode)) {
+			core = new MutationalExhaustiveRepair_Profl(mutSupporter, projectFacade);
 
 		} else if (ExecutionMode.EXASTOR.equals(mode)) {
 			core = new ExhaustiveIngredientBasedEngine(mutSupporter, projectFacade);

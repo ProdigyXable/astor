@@ -1,30 +1,9 @@
 package fr.inria.main;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.UnrecognizedOptionException;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.output.ReportResults;
 import fr.inria.astor.core.setup.ConfigurationProperties;
@@ -45,6 +24,24 @@ import fr.inria.astor.core.solutionsearch.spaces.operators.OperatorSpace;
 import fr.inria.astor.core.validation.ProgramVariantValidator;
 import fr.inria.astor.util.TimeUtil;
 import fr.inria.main.evolution.ExtensionPoints;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.UnrecognizedOptionException;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import spoon.Launcher;
 import spoon.OutputType;
 import spoon.SpoonModelBuilder.InputType;
@@ -87,6 +84,10 @@ public abstract class AbstractMain {
 		options.addOption("bug340", false, "Run the bug 340 from Apache Commons Math");
 
 		// Optional parameters
+                options.addOption("proflMethod", true, "Method coverage -> line number file path for profl");
+                options.addOption("proflTest", true, "Test coverage -> method coverage file path for profl");
+                options.addOption("proflFailing", true, "File path for failing test cases in profl");
+                
 		options.addOption("jvm4testexecution", true,
 				"(Optional) location of JVM that executes the mutated version of a program (Folder that contains java script, such as /bin/ ).");
 		options.addOption("jvm4evosuitetestexecution", true,
@@ -342,7 +343,25 @@ public abstract class AbstractMain {
 			help();
 			return false;
 		}
-
+                
+                if(cmd.hasOption("proflMethod")) {
+                    ConfigurationProperties.properties.setProperty("proflMethod", cmd.getOptionValue("proflMethod"));
+                } else {
+                    ConfigurationProperties.properties.setProperty("proflMethod","");
+                }
+                
+                if(cmd.hasOption("proflTest")) {
+                    ConfigurationProperties.properties.setProperty("proflTest", cmd.getOptionValue("proflTest"));
+                } else {
+                    ConfigurationProperties.properties.setProperty("proflTest","");
+                }
+                
+                if(cmd.hasOption("proflFailing")) {
+                    ConfigurationProperties.properties.setProperty("proflFailing", cmd.getOptionValue("proflFailing"));
+                } else {
+                    ConfigurationProperties.properties.setProperty("proflFailing","");
+                }
+                
 		if (cmd.hasOption("jvm4testexecution")) {
 			ConfigurationProperties.properties.setProperty("jvm4testexecution",
 					cmd.getOptionValue("jvm4testexecution"));

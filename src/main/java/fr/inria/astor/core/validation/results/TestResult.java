@@ -2,53 +2,80 @@ package fr.inria.astor.core.validation.results;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
- * 
- * @author Matias Martinez,  matias.martinez@inria.fr
+ *
+ * @author Matias Martinez, matias.martinez@inria.fr
  *
  */
 public class TestResult {
-	
-	public int casesExecuted = 0;
-	public int failures = 0;
-	public List<String> successTest =new ArrayList<String>();
-	 
-	public  List<String> failTest =new ArrayList<String>();
 
-	 public List<String> getSuccessTest() {
-		return successTest;
-	}
+    public int failFail = 0;
+    public int failPass = 0;
+    public int passFail = 0;
+    public int passPass = 0;
 
-	public void setSuccessTest(List<String> successTest) {
-		this.successTest = successTest;
-	}
+    public boolean individualTestsProcessed = false;
 
-	public List<String> getFailures() {
-		return failTest;
-	}
+    public int casesExecuted = 0;
+    public int failures = 0;
+    public List<String> successTest = new ArrayList<String>();
 
-	public void setFailTest(List<String> failTest) {
-		this.failTest = failTest;
-	}
+    public List<String> failTest = new ArrayList<String>();
 
-	public boolean wasSuccessful(){
-		return failures == 0;
-	}
+    public List<String> getSuccessTest() {
+        return successTest;
+    }
 
-	@Override
-	public String toString() {
-		return "TR: Success: "+ (failures == 0) + ", failTest= "
-				+ failures + ", was successful: "+this.wasSuccessful()+", cases executed: "+casesExecuted+"] ,"+ this.failTest;
-	}
+    public void setSuccessTest(List<String> successTest) {
+        this.successTest = successTest;
+    }
 
-	public int getFailureCount(){
-		return failures;
-	}
+    public List<String> getFailures() {
+        return failTest;
+    }
 
-	public int getCasesExecuted() {
-		return casesExecuted;
-	}
-	
-	 
-	 
+    public void setFailTest(List<String> failTest) {
+        this.failTest = failTest;
+    }
+
+    public boolean wasSuccessful() {
+        return failures == 0;
+    }
+
+    @Override
+    public String toString() {
+        return "TR: Success: " + (failures == 0) + ", failTest= "
+                + failures + ", was successful: " + this.wasSuccessful() + ", cases executed: " + casesExecuted
+                + ", fail-fail=" + failFail
+                + ", fail-pass=" + failPass
+                + ", pass-fail=" + passFail
+                + ", pass-pass=" + passPass
+                + "] ," + this.failTest;
+    }
+
+    public int getFailureCount() {
+        return failures;
+    }
+
+    public int getCasesExecuted() {
+        return casesExecuted;
+    }
+
+    public int getFailFail() {
+        return failFail;
+    }
+
+    public int getFailPass() {
+        return failPass;
+    }
+
+    public int getPassFail() {
+        return passFail;
+    }
+
+    public int getPassPass() {
+        return passPass;
+    }
+
 }

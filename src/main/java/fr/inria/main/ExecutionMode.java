@@ -12,9 +12,13 @@ import java.util.List;
 public enum ExecutionMode {
 	DeepRepair(Collections.singletonList("deeprepair")),
 	CARDUMEN(Collections.singletonList("cardumen")),
+        CARDUMEN_Profl(Collections.singletonList("cardumen_profl")),
 	jGenProg(Collections.singletonList("jgenprog")),
+        jGenProg_Profl(Collections.singletonList("jgenprog_profl")),
 	jKali(Collections.singletonList("jkali")),
+        jKali_Profl(Collections.singletonList("jkali_profl")),
 	MutRepair(Arrays.asList("mutation","jmutrepair", "mutrepair")),
+        MutRepair_Profl(Arrays.asList("mutation_profl","jmutrepair_profl", "mutrepair_profl")),
 	EXASTOR(Arrays.asList("exhaustive", "exastor")),
 	SCAFFOLD(Collections.singletonList("scaffold")),
 	custom(Collections.singletonList("custom"));

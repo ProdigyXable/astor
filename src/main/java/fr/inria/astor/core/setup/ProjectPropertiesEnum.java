@@ -15,7 +15,7 @@ public enum ProjectPropertiesEnum {
 	originalTestBinDir,
 	dependencies,
 	originalProjectRootDir,
-	dataFolder ,
+	dataFolder,
 	failingTestCases,
 	regressionTestCases,
 	spoonFactory,
@@ -23,5 +23,8 @@ public enum ProjectPropertiesEnum {
 	experimentName,
 	packageToInstrument,
 	flthreshold,
+        proflMethodPath,
+        proflTestPath,
+        proflFailingTestPath
 	;
 }
