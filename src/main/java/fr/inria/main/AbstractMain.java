@@ -8,6 +8,7 @@ import fr.inria.astor.core.entities.ProgramVariant;
 import fr.inria.astor.core.output.ReportResults;
 import fr.inria.astor.core.setup.ConfigurationProperties;
 import fr.inria.astor.core.setup.ProjectConfiguration;
+import fr.inria.astor.core.setup.ProjectPropertiesEnum;
 import fr.inria.astor.core.setup.ProjectRepairFacade;
 import fr.inria.astor.core.setup.RandomManager;
 import fr.inria.astor.core.solutionsearch.AstorCoreEngine;
@@ -345,18 +346,21 @@ public abstract class AbstractMain {
 		}
                 
                 if(cmd.hasOption("proflMethod")) {
+                    System.out.println("Profl method coverage filepath detected");
                     ConfigurationProperties.properties.setProperty("proflMethod", cmd.getOptionValue("proflMethod"));
                 } else {
                     ConfigurationProperties.properties.setProperty("proflMethod","");
                 }
                 
                 if(cmd.hasOption("proflTest")) {
+                    System.out.println("Profl test coverage filepath detected");
                     ConfigurationProperties.properties.setProperty("proflTest", cmd.getOptionValue("proflTest"));
                 } else {
                     ConfigurationProperties.properties.setProperty("proflTest","");
                 }
                 
                 if(cmd.hasOption("proflFailing")) {
+                    System.out.println("Profl failing test filepath detected");
                     ConfigurationProperties.properties.setProperty("proflFailing", cmd.getOptionValue("proflFailing"));
                 } else {
                     ConfigurationProperties.properties.setProperty("proflFailing","");
@@ -908,7 +912,7 @@ public abstract class AbstractMain {
 			projectIdentifier = locFile.getName();
 		}
 
-		String projectUnderRepairKeyFolder = File.separator + method + "-" + projectIdentifier + File.separator;
+		String projectUnderRepairKeyFolder = File.separator + ConfigurationProperties.getProperty("mode") + File.separator + method + "-" + projectIdentifier + File.separator;
 		String workingdir = ConfigurationProperties.getProperty("workingDirectory");
 		String workingDirForSource = workingdir + projectUnderRepairKeyFolder + "/src/";
 		String workingDirForBytecode = workingdir + projectUnderRepairKeyFolder + "/bin/";
@@ -940,7 +944,7 @@ public abstract class AbstractMain {
 			}
 			String paramBinTestFolder = ConfigurationProperties.getProperty("bintestfolder");
 			if (paramBinTestFolder == null || paramBinTestFolder.trim().isEmpty()) {
-				throw new IllegalArgumentException("The bin folders  for tests do not exist.");
+				throw new IllegalArgumentException("The bin folders for tests do not exist.");
 			} else {
 				String[] singleBinTestFolders = paramBinTestFolder.split(File.pathSeparator);
 				List<String> originalBinTest = determineBinFolder(originalProjectRoot, singleBinTestFolders);
@@ -953,8 +957,12 @@ public abstract class AbstractMain {
 		properties.setPackageToInstrument(ConfigurationProperties.getProperty("packageToInstrument"));
 
 		properties.setDataFolder(ConfigurationProperties.getProperty("resourcesfolder"));
-
-		ProjectRepairFacade ce = new ProjectRepairFacade(properties);
+                
+                properties.setProperty(ProjectPropertiesEnum.proflMethodPath, ConfigurationProperties.getProperty("proflMethod"));
+                properties.setProperty(ProjectPropertiesEnum.proflTestPath, ConfigurationProperties.getProperty("proflTest"));
+                properties.setProperty(ProjectPropertiesEnum.proflFailingTestPath, ConfigurationProperties.getProperty("proflFailing"));
+		
+                ProjectRepairFacade ce = new ProjectRepairFacade(properties);
 
 		return ce;
 	}

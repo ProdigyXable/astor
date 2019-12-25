@@ -1,17 +1,14 @@
 package fr.inria.astor.core.faultlocalization.cocospoon.testrunner;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
+import fr.inria.astor.core.faultlocalization.cocospoon.code.ClassLibrary;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.concurrent.Callable;
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
-
-import fr.inria.astor.core.faultlocalization.cocospoon.code.ClassLibrary;
 
 public final class JUnitRunner implements Callable<Result> {
 
@@ -22,7 +19,7 @@ public final class JUnitRunner implements Callable<Result> {
 
     @Override
     public Result call() throws Exception {
-        TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Los_Angeles"));
         JUnitCore runner = new JUnitCore();
         runner.addListener(listener);
         Class<?>[] testClasses = testClassesFromCustomClassLoader();

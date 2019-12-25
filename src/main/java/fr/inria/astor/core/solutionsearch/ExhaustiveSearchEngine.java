@@ -1,12 +1,6 @@
 package fr.inria.astor.core.solutionsearch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import com.martiansoftware.jsap.JSAPException;
-
 import fr.inria.astor.core.entities.ModificationPoint;
 import fr.inria.astor.core.entities.OperatorInstance;
 import fr.inria.astor.core.entities.ProgramVariant;
@@ -16,6 +10,10 @@ import fr.inria.astor.core.setup.ConfigurationProperties;
 import fr.inria.astor.core.setup.ProjectRepairFacade;
 import fr.inria.astor.core.solutionsearch.spaces.operators.AstorOperator;
 import fr.inria.main.AstorOutputStatus;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Exhaustive Search Engine
@@ -56,8 +54,8 @@ public abstract class ExhaustiveSearchEngine extends AstorCoreEngine {
 				for (OperatorInstance pointOperation : operatorInstances) {
 
 					try {
-						log.info("mod_point " + modifPoint);
-						log.info("-->op: " + pointOperation);
+//						log.info("mod_point " + modifPoint);
+//						log.info("-->op: " + pointOperation);
 					} catch (Exception e) {
 						log.error(e);
 					}

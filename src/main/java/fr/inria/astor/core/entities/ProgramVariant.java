@@ -1,5 +1,9 @@
 package fr.inria.astor.core.entities;
 
+import fr.inria.astor.core.entities.validation.VariantValidationResult;
+import fr.inria.astor.core.manipulation.bytecode.entities.CompilationResult;
+import fr.inria.astor.core.setup.ConfigurationProperties;
+import fr.inria.astor.core.stats.PatchStat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -7,11 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import fr.inria.astor.core.entities.validation.VariantValidationResult;
-import fr.inria.astor.core.manipulation.bytecode.entities.CompilationResult;
-import fr.inria.astor.core.setup.ConfigurationProperties;
-import fr.inria.astor.core.stats.PatchStat;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtType;
@@ -39,7 +38,7 @@ public class ProgramVariant {
 	public static String DEFAULT_ORIGINAL_VARIANT = "default";
 
 	/**
-	 * Variand ID
+	 * Variant ID
 	 */
 	protected int id = 0;
 
@@ -55,7 +54,7 @@ public class ProgramVariant {
 	protected Map<String, CtClass> loadClasses = new HashMap<String, CtClass>();
 
 	/**
-	 * operations applied to a Modification Point, organizated by generations
+	 * operations applied to a Modification Point, organized by generations
 	 */
 	protected Map<Integer, List<OperatorInstance>> operations = null;
 	/**

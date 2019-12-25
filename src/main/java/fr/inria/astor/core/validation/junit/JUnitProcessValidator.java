@@ -194,7 +194,8 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
 
     protected TestCaseVariantValidationResult executeRegressionTestingOneByOne(ProgramVariant mutatedVariant, URL[] bc,
             LaucherJUnitProcess p, ProjectRepairFacade projectFacade) {
-
+        log.info("Executing profl-based regression testing");
+        
         log.debug("-Test Failing is passing, Executing regression, One by one");
         TestResult trregressionall = new TestResult();
         long t1 = System.currentTimeMillis();
@@ -205,8 +206,7 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
             parcial.add(tc);
             String jvmPath = ConfigurationProperties.getProperty("jvm4testexecution");
 
-            TestResult singleTestResult = p.execute(jvmPath, bc, parcial,
-                    ConfigurationProperties.getPropertyInt("tmax2"));
+            TestResult singleTestResult = p.execute(jvmPath, bc, parcial,ConfigurationProperties.getPropertyInt("tmax2"));
             if (singleTestResult == null) {
                 log.debug("The validation 2 have not finished well");
                 return null;
@@ -218,18 +218,14 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
 
                 if (projectFacade.getProperties().getFailingTestCases().contains(tc)) {
                     if (singleTestResult.getFailureCount() > 0) {
-                        log.debug("--Fail-fail test case found: " + tc);
                         trregressionall.failFail += 1;
                     } else {
-                        log.debug("--Fail-pass test case found: " + tc);
                         trregressionall.failPass += 1;
                     }
                 } else if (projectFacade.getProperties().getRegressionTestCases().contains(tc)) {
                     if (singleTestResult.getFailureCount() > 0) {
-                        log.debug("--Pass-fail test case found: " + tc);
                         trregressionall.passFail += 1;
                     } else {
-                        log.debug("--Pass-pass test case found: " + tc);
                         trregressionall.passPass += 1;
                     }
                 }
@@ -238,7 +234,8 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
         }
 
         trregressionall.individualTestsProcessed = true;
-
+        log.info(String.format("Regression testing results: ff=%d, fp=%d, pf=%d, pp=%d", trregressionall.failFail, trregressionall.failPass, trregressionall.passFail, trregressionall.passPass));
+        log.info(trregressionall.getFailures());
         long t2 = System.currentTimeMillis();
         log.debug(trregressionall);
         return new TestCasesProgramValidationResult(trregressionall, true, trregressionall.wasSuccessful());

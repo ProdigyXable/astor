@@ -168,6 +168,8 @@ public class AstorMain extends AbstractMain {
 	public void run(String location, String projectName, String dependencies, String packageToInstrument, double thfl,
 			String failing) throws Exception {
 
+                log.info("Starting run execution");
+                
 		long startT = System.currentTimeMillis();
 		initProject(location, projectName, dependencies, packageToInstrument, thfl, failing);
 
@@ -194,7 +196,7 @@ public class AstorMain extends AbstractMain {
 
 		}
 
-		ConfigurationProperties.print();
+		// ConfigurationProperties.print();
 
 		core.startEvolution();
 

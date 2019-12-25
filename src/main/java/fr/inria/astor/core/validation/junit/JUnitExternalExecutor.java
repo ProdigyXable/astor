@@ -1,18 +1,16 @@
 package fr.inria.astor.core.validation.junit;
 
+import fr.inria.astor.core.validation.junit.filters.TestFilter;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.model.InitializationError;
-
-import fr.inria.astor.core.validation.junit.filters.TestFilter;
 
 /**
  * This class runs a JUnit test suite i.e., a set of test cases.

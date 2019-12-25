@@ -2,7 +2,6 @@ package fr.inria.astor.core.setup;
 
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -64,9 +63,9 @@ public class ConfigurationProperties {
 
 	public static void print() {
 		log.info("----------------------------");
-		log.info("---Configuration properties:---Execution values");
+		log.info("--- Configuration properties ---");
 		for (String key : properties.stringPropertyNames()) {
-			log.info("p:" + key + "= " + properties.getProperty(key));
+			log.info("p:" + key + " = " + properties.getProperty(key));
 		}
 		log.info("----------------------------");
 	}

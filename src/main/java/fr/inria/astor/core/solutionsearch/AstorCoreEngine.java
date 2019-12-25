@@ -742,7 +742,8 @@ public abstract class AstorCoreEngine implements AstorExtensionPoint {
         VariantValidationResult validationResult = validateInstance(originalVariant);
 
         if (validationResult == null) {
-            log.error("Initial run of test suite fails");
+            log.error("Initial run of test suite fails " + this.projectFacade.getProperties().getFailingTestCases());
+            
 
         } else if (validationResult.isSuccessful()) {
             throw new IllegalStateException("The application under repair has not failling test cases");

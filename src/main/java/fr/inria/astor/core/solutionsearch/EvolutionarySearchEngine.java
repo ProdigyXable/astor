@@ -1,14 +1,6 @@
 package fr.inria.astor.core.solutionsearch;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.map.HashedMap;
-
 import com.martiansoftware.jsap.JSAPException;
-
 import fr.inria.astor.core.entities.ModificationPoint;
 import fr.inria.astor.core.entities.OperatorInstance;
 import fr.inria.astor.core.entities.ProgramVariant;
@@ -21,6 +13,11 @@ import fr.inria.astor.core.solutionsearch.spaces.operators.AstorOperator;
 import fr.inria.astor.core.stats.Stats.GeneralStatEnum;
 import fr.inria.astor.util.StringUtil;
 import fr.inria.main.AstorOutputStatus;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.collections.map.HashedMap;
 
 /**
  * Evolutionary program transformation Loop
@@ -35,6 +32,7 @@ public class EvolutionarySearchEngine extends AstorCoreEngine {
 		super(mutatorExecutor, projFacade);
 	}
 
+        @Override
 	public void startEvolution() throws Exception {
 
 		log.info("\n----Starting Solution Search");
