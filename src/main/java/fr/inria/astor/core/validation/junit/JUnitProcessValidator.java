@@ -11,12 +11,16 @@ import fr.inria.astor.core.validation.ProgramVariantValidator;
 import fr.inria.astor.core.validation.results.TestCasesProgramValidationResult;
 import fr.inria.astor.core.validation.results.TestResult;
 import fr.inria.astor.util.Converters;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,6 +29,14 @@ import org.apache.log4j.Logger;
  *
  */
 public class JUnitProcessValidator extends ProgramVariantValidator {
+
+    public static int patchNum = 0;
+    public static String dir = "";
+
+    static Set<String> ff = new TreeSet();
+    static Set<String> fp = new TreeSet();
+    static Set<String> pf = new TreeSet();
+    static Set<String> pp = new TreeSet();
 
     protected Logger log = Logger.getLogger(Thread.currentThread().getName());
 
@@ -195,7 +207,7 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
     protected TestCaseVariantValidationResult executeRegressionTestingOneByOne(ProgramVariant mutatedVariant, URL[] bc,
             LaucherJUnitProcess p, ProjectRepairFacade projectFacade) {
         log.info("Executing profl-based regression testing");
-        
+
         log.debug("-Test Failing is passing, Executing regression, One by one");
         TestResult trregressionall = new TestResult();
         long t1 = System.currentTimeMillis();
@@ -206,7 +218,7 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
             parcial.add(tc);
             String jvmPath = ConfigurationProperties.getProperty("jvm4testexecution");
 
-            TestResult singleTestResult = p.execute(jvmPath, bc, parcial,ConfigurationProperties.getPropertyInt("tmax2"));
+            TestResult singleTestResult = p.execute(jvmPath, bc, parcial, ConfigurationProperties.getPropertyInt("tmax2"));
             if (singleTestResult == null) {
                 log.debug("The validation 2 have not finished well");
                 return null;
@@ -219,14 +231,23 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
                 if (projectFacade.getProperties().getFailingTestCases().contains(tc)) {
                     if (singleTestResult.getFailureCount() > 0) {
                         trregressionall.failFail += 1;
+                        // log.info(String.format("[Fail->Fail] %s", tc));
+                        ff.add(tc);
                     } else {
                         trregressionall.failPass += 1;
+                        // log.info(String.format("[Fail->Pass] %s", tc));
+                        fp.add(tc);
                     }
                 } else if (projectFacade.getProperties().getRegressionTestCases().contains(tc)) {
                     if (singleTestResult.getFailureCount() > 0) {
                         trregressionall.passFail += 1;
+                        // log.info(String.format("[Pass->Fail] %s", tc));
+                        pf.add(tc);
                     } else {
                         trregressionall.passPass += 1;
+                        // log.info(String.format("[Pass->Pass] %s", tc));
+                        pp.add(tc);
+
                     }
                 }
 
@@ -234,12 +255,50 @@ public class JUnitProcessValidator extends ProgramVariantValidator {
         }
 
         trregressionall.individualTestsProcessed = true;
+        long t2 = System.currentTimeMillis();
         log.info(String.format("Regression testing results: ff=%d, fp=%d, pf=%d, pp=%d", trregressionall.failFail, trregressionall.failPass, trregressionall.passFail, trregressionall.passPass));
         log.info(trregressionall.getFailures());
-        long t2 = System.currentTimeMillis();
+
         log.debug(trregressionall);
         return new TestCasesProgramValidationResult(trregressionall, true, trregressionall.wasSuccessful());
 
+    }
+
+    public static void saveTestInformation() {
+        File output = new File(String.format("%s/tests/%d.tests", dir, patchNum));
+        output.getParentFile().mkdirs();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(output))) {
+
+            bw.write(String.format("Testing results: ff=%d, fp=%d, pf=%d, pp=%d", ff.size(), fp.size(), pf.size(), pp.size()));
+            bw.newLine();
+
+            bw.write("-----------------");
+            bw.newLine();
+
+            for (String m : ff) {
+                bw.write(String.format("[Fail->Fail] %s", m));
+                bw.newLine();
+            }
+
+            for (String m : fp) {
+                bw.write(String.format("[Fail->Pass] %s", m));
+                bw.newLine();
+            }
+
+            for (String m : pf) {
+                bw.write(String.format("[Pass->Fail] %s", m));
+                bw.newLine();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not successfully write to file:" + output.getAbsolutePath());
+            System.out.println(e.getMessage());
+        } finally {
+            ff.clear();
+            fp.clear();
+            pf.clear();
+            pp.clear();
+        }
     }
 
     @Override
