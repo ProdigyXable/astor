@@ -52,7 +52,7 @@ public class JGenProg_Profl extends JGenProg {
         profl_test = new XiaTestLineCoverage(proflTest);
         profl = new ProflResultRanking(profl_method, profl_test, proflFailing);
 
-        log.info(String.format("Creating Profl-based jGEnProg %s, %s, %s", proflMethod, proflTest, proflFailing));
+        log.info(String.format("Creating Profl-based jGenProg %s, %s, %s", proflMethod, proflTest, proflFailing));
     }
 
     @Override

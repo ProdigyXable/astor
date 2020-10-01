@@ -25,6 +25,7 @@ public enum ProjectPropertiesEnum {
 	flthreshold,
         proflMethodPath,
         proflTestPath,
-        proflFailingTestPath
+        proflFailingTestPath,
+        buggyMethods
 	;
 }

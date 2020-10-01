@@ -87,9 +87,13 @@ public class ProjectConfiguration {
     public void setOriginalDirSrc(String originalDir) {
         ((List) this.internalProperties.get(ProjectPropertiesEnum.originalDirSrc)).add(originalDir);
     }
-
+    
     public List<URL> getDependencies() {
         return (List<URL>) this.internalProperties.get(ProjectPropertiesEnum.dependencies);
+    }
+
+    public String getBuggyMethods() {
+        return (String) this.internalProperties.get(ProjectPropertiesEnum.buggyMethods);
     }
 
     public String getProflMethodFilepath() {
